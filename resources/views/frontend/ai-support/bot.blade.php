@@ -1,5 +1,3 @@
-<!-- Add to your layout blade, before </body> -->
-
 <div id="chat-btn" onclick="toggleChat()"
      style="position:fixed;bottom:24px;right:24px;
   width:56px;height:56px;border-radius:50%;
