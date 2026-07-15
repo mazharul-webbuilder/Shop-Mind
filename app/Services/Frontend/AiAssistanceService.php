@@ -28,9 +28,13 @@ class AiAssistanceService
             ],
         ]);
 
-        Log::channel('daily')->info('AI assistance response: ' . $response->json('choices.0.message.content'));
+        $formatedResponse = $response->json('choices.0.message.content');
 
-        return $response->json('choices.0.message.content');
+        if (empty($formatedResponse)) {
+            return "I'm sorry, I couldn't find any information about that.";
+        }
+
+        return $formatedResponse;
 
     }
 }
