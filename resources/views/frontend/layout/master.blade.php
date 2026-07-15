@@ -76,5 +76,6 @@
             </div>
         </footer>
     </div>
+    @include('frontend.ai-support.bot')
 </body>
 </html>
