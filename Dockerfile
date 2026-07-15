@@ -41,8 +41,17 @@ WORKDIR /var/www
 # Copy application files
 COPY . .
 
+# Generate .env from .env.example if .env doesn't exist
+RUN if [ ! -f .env ]; then cp .env.example .env; fi
+
 # Set permissions
 RUN chown -R $user:$user /var/www
+
+# Install composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Generate app key if not already set
+RUN php artisan key:generate --force || true
 
 # Configure Nginx
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
