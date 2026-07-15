@@ -14,7 +14,7 @@
   bottom:90px;right:24px;width:340px;height:440px;
   background:white;border-radius:12px;
   box-shadow:0 8px 32px rgba(0,0,0,0.15);
-  display:flex;flex-direction:column;z-index:999">
+  flex-direction:column;z-index:999">
 
     <div style="background:#1F4E79;color:white;padding:14px 16px;
     border-radius:12px 12px 0 0;font-weight:500">
