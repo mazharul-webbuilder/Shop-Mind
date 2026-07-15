@@ -14,7 +14,7 @@ class AiAssistanceService
         "{$p->name} - {$p->price}: {$p->description}"
         )->implode("\n");
 
-        $systemPrompt = "You are a helpful customer assistant for our online store. Here are our available products: {$productList} Answer customer questions about products, pricing,
+        $systemPrompt = "You are a helpful customer assistant for our online store name ". config('app.name'). " Here are our available products: {$productList} Answer customer questions about products, pricing,
         and availability. Be friendly and concise.";
 
         $response = Http::withHeaders([
@@ -28,7 +28,7 @@ class AiAssistanceService
             ],
         ]);
 
-//        Log::channel('daily')->info('AI assistance response: ' . $response->json('choices.0.message.content'));
+        Log::channel('daily')->info('AI assistance response: ' . $response->json('choices.0.message.content'));
 
         return $response->json('choices.0.message.content');
 
