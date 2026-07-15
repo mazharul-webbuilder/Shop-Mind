@@ -20,8 +20,8 @@ class AiAssistanceService
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.ai-assistance.groq.key'),
             'Content-Type'   => 'application/json',
-        ])->post('https://api.groq.com/openai/v1/chat/completions', [
-            'model'    => 'llama-3.1-8b-instant',
+        ])->post(config('services.ai-assistance.groq.endpoint'), [
+            'model'    => config('services.ai-assistance.groq.model'),
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ['role' => 'user',   'content' => $message],

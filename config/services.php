@@ -36,7 +36,9 @@ return [
     ],
     'ai-assistance' => [
         'groq' => [
+            'endpoint' => env('GROQ_API_ENDPOINT'),
             'key' => env('GROQ_API_KEY'),
+            'model' => env('GROQ_MODEL'),
         ],
     ]
 
