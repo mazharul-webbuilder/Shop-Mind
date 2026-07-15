@@ -16,7 +16,7 @@
 
     <div style="background:#1F4E79;color:white;padding:14px 16px;
     border-radius:12px 12px 0 0;font-weight:500">
-        🛍️ Shop Assistant
+        🛍️ ShopMind Assistant
     </div>
 
     <div id="chat-messages" style="flex:1;overflow-y:auto;
