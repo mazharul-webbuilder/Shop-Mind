@@ -251,7 +251,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Wireless Mechanical Keyboard',
                 'slug' => 'wireless-mechanical-keyboard',
-                'image' => 'https://images.unsplash.com/photo-1587829741301-dc798e83add3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'image' => 'https://images.unsplash.com/photo-1541140532154-b024d705b90a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80',
                 'price' => 129.99,
                 'description' => 'RGB backlit wireless mechanical keyboard with hot-swappable switches and long battery life.',
                 'is_active' => true,
@@ -377,7 +377,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Polarized Sunglasses',
                 'slug' => 'polarized-sunglasses',
-                'image' => 'https://images.unsplash.com/photo-1511499767150-a48a237f008e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+                'image' => 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80',
                 'price' => 49.99,
                 'description' => 'Stylish UV400 polarized sunglasses with lightweight frame and premium protection for outdoor use.',
                 'is_active' => true,
