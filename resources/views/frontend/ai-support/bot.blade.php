@@ -44,6 +44,8 @@
         box.style.display = box.style.display === 'none' ? 'flex' : 'none';
     }
 
+    let conversationHistory = [];
+
     async function sendMessage() {
         const input   = document.getElementById('chat-input');
         const msgs    = document.getElementById('chat-messages');
@@ -60,16 +62,28 @@
         msgs.innerHTML += `<div id="typing"
     style="color:#888;font-size:12px;padding:4px">typing...</div>`;
 
+        // Add user message to history
+        conversationHistory.push({
+            role: 'user',
+            content: message
+        });
+
         const res  = await fetch('/api/assistant/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
             },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({ messages: conversationHistory })
         });
 
         const data = await res.json();
+        // Add AI response to history too
+        conversationHistory.push({
+            role: 'assistant',
+            content: data.reply
+        });
+
         document.getElementById('typing').remove();
 
         msgs.innerHTML += `<div style="background:#f1f5f9;

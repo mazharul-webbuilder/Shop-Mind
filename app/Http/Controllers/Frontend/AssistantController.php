@@ -12,13 +12,15 @@ class AssistantController extends Controller
     public function chat(Request $request)
     {
         $request->validate([
-            'message' => ['required', 'string', 'max:255'],
+            'messages' => 'required|array',
+            'messages.*.role' => 'required|in:user,assistant',
+            'messages.*.content' => 'required|string|max:1000',
         ]);
 
         $products = Product::select('name', 'price', 'description')
             ->get();
 
-        $response = (new AiAssistanceService())->chat($request->message, $products);
+        $response = (new AiAssistanceService())->chat($request->messages, $products);
 
         return response()->json(['reply' => $response]);
     }
