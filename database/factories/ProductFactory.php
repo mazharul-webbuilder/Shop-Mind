@@ -20,7 +20,7 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->name(),
             'slug' => fake()->slug(),
-            'image' => null,
+            'image' => fake()->imageUrl(),
             'price' => fake()->randomFloat(2, 10, 1000),
             'description' => fake()->paragraph(),
             'is_active' => fake()->boolean(),

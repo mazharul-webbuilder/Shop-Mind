@@ -51,7 +51,7 @@
                 @forelse($featuredProducts as $product)
                     <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 transition-transform duration-300 hover:-translate-y-1">
                         <div class="relative h-48">
-                            <img src="{{ $product->image ?? 'https://via.placeholder.com/300x300?text=' . urlencode($product->name) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1350&q=80" alt="{{ $product->name }}" class="w-full h-full object-cover">
                             @if($product->is_sale)
                                 <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">SALE</span>
                             @endif
@@ -90,7 +90,7 @@
                 @forelse($newArrivals as $product)
                     <div class="group relative">
                         <div class="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden lg:aspect-none group-hover:opacity-75 h-80">
-                            <img src="{{ $product->image ?? 'https://via.placeholder.com/300x400?text=' . urlencode($product->name) }}" alt="{{ $product->name }}" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                            <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=1350&q=80" alt="{{ $product->name }}" class="w-full h-full object-center object-cover lg:w-full lg:h-full">
                         </div>
                         <div class="mt-4 flex justify-between">
                             <div>
