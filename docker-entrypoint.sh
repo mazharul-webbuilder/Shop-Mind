@@ -8,6 +8,11 @@ a2dismod mpm_worker 2>/dev/null || true
 # Force only PHP's module to run
 a2enmod mpm_prefork 2>/dev/null || true
 
+# Point Apache to Railway's assigned port (defaults to 80 if not set)
+PORT="${PORT:-80}"
+sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf
+sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-available/*.conf
+
 # Clear and optimize Laravel config/routes for production
 php artisan config:clear
 php artisan route:clear
