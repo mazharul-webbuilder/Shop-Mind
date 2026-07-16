@@ -8,5 +8,10 @@ a2dismod mpm_worker 2>/dev/null || true
 # Force only PHP's module to run
 a2enmod mpm_prefork 2>/dev/null || true
 
+# Clear and optimize Laravel config/routes for production
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
 # Start Apache normally
 exec apache2-foreground
