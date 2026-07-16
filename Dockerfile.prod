@@ -1,0 +1,25 @@
+FROM php:8.4-apache
+
+# 1. Install system dependencies & PHP extensions
+RUN apt-get update && apt-get install -y \
+    git curl libpng-dev libonig-dev libxml2-dev zip unzip \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# 2. Enable Apache rewrite module (required for Laravel routes)
+RUN a2enmod rewrite
+
+# 3. Change Apache document root to public folder
+ENV APACHE_DOCUMENT_ROOT /var/www/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf.d/*
+
+# 4. Set working directory and copy project files
+WORKDIR /var/www
+COPY . /var/www
+
+# 5. Get latest Composer & install production dependencies
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+
+# 6. Set correct permissions for storage/cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
