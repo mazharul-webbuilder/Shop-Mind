@@ -1,12 +1,11 @@
 FROM php:8.4-fpm
 
-# Arguments
-ARG user=shopmind
-ARG uid=1000
+# Arguments defined in docker-compose.yml
+ARG user
+ARG uid
 
-# Install system dependencies including Nginx
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    nginx \
     git \
     curl \
     libpng-dev \
@@ -14,8 +13,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    gnupg \
-    supervisor
+    gnupg
 
 # Install Node.js (latest LTS)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -38,50 +36,4 @@ RUN mkdir -p /home/$user/.composer && \
 # Set working directory
 WORKDIR /var/www
 
-# Copy application files
-COPY . .
-
-# Generate .env from .env.example if .env doesn't exist
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
-
-# Set permissions
-RUN chown -R $user:$user /var/www
-
-# Install composer dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Generate app key if not already set
-RUN php artisan key:generate --force || true
-
-# Configure Nginx
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-RUN rm -f /etc/nginx/sites-enabled/default
-
-# Create supervisor config to run both PHP-FPM and Nginx
-RUN mkdir -p /var/log/supervisor
-COPY <<EOF /etc/supervisor/conf.d/supervisord.conf
-[supervisord]
-nodaemon=true
-logfile=/var/log/supervisor/supervisord.log
-
-[program:php-fpm]
-command=/usr/local/sbin/php-fpm --nodaemonize
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/supervisor/php-fpm.err.log
-stdout_logfile=/var/log/supervisor/php-fpm.out.log
-
-[program:nginx]
-command=/usr/sbin/nginx -g "daemon off;"
-autostart=true
-autorestart=true
-stderr_logfile=/var/log/supervisor/nginx.err.log
-stdout_logfile=/var/log/supervisor/nginx.out.log
-EOF
-
-# Expose port 80 for HTTP
-EXPOSE 80
-
-# Run supervisor to manage both PHP-FPM and Nginx
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
-
+USER $user
