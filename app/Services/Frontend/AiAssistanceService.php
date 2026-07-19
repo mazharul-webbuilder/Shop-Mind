@@ -10,8 +10,7 @@ class AiAssistanceService
 
     public function chat($messages, $products): string
     {
-        $productList = $products->map(fn($p) =>
-        "{$p->name} - {$p->price}: {$p->description}"
+        $productList = $products->map(fn($p) => "{$p->name} - {$p->price}: {$p->description}"
         )->implode("\n");
 
         $systemPrompt = "You are a helpful customer assistant for our online store "
@@ -26,19 +25,23 @@ class AiAssistanceService
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . config('services.ai-assistance.groq.key'),
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
         ])->post(config('services.ai-assistance.groq.endpoint'), [
-            'model'    => config('services.ai-assistance.groq.model'),
+            'model' => config('services.ai-assistance.groq.model'),
             'messages' => [
                 ['role' => 'system', 'content' => $systemPrompt],
                 ...$messages,
             ],
         ]);
 
-        Log::channel('daily')->info('AI Response: '
-            . $response->json('choices.0.message.content'));
+        $content = $response->json('choices.0.message.content');
 
-        return $response->json('choices.0.message.content')
-            ?? 'Sorry, I could not process that.';
+        if (!$content) {
+            return "Our AI assistant is temporarily unavailable. "
+                . "Please browse our products directly or contact us for help. "
+                . "We'll be back shortly!";
+        }
+
+        return $content;
     }
 }
