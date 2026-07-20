@@ -18,7 +18,7 @@
                         </p>
                         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                             <div class="rounded-md shadow">
-                                <a href="#" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+                                <a href="{{ route('frontend.home') }}#shop" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
                                     Shop Now
                                 </a>
                             </div>
@@ -38,7 +38,7 @@
     </div>
 
     <!-- Featured Products -->
-    <div class="bg-gray-50 py-12">
+    <div id="shop" class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center mb-10">
                 <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">Special Offers</h2>
@@ -57,15 +57,21 @@
                             @endif
                         </div>
                         <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-900 truncate">{{ $product->name }}</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 truncate">
+                                <a href="{{ route('frontend.product.show', $product->slug) }}">{{ $product->name }}</a>
+                            </h3>
                             <p class="mt-1 text-gray-500 text-sm line-clamp-2">{{ $product->description }}</p>
                             <div class="mt-3 flex items-center justify-between">
                                 <span class="text-xl font-bold text-gray-900">${{ number_format($product->price, 2) }}</span>
-                                <button class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                                    </svg>
-                                </button>
+                                <form action="{{ route('frontend.cart.add') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <button type="submit" class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -95,14 +101,25 @@
                         <div class="mt-4 flex justify-between">
                             <div>
                                 <h3 class="text-sm text-gray-700">
-                                    <a href="#">
+                                    <a href="{{ route('frontend.product.show', $product->slug) }}">
                                         <span aria-hidden="true" class="absolute inset-0"></span>
                                         {{ $product->name }}
                                     </a>
                                 </h3>
                                 <p class="mt-1 text-sm text-gray-500">{{ $product->is_new ? 'New Arrival' : '' }}</p>
                             </div>
-                            <p class="text-sm font-medium text-gray-900">${{ number_format($product->price, 2) }}</p>
+                            <div class="flex flex-col items-end justify-between">
+                                <p class="text-sm font-medium text-gray-900">${{ number_format($product->price, 2) }}</p>
+                                <form action="{{ route('frontend.cart.add') }}" method="POST" class="mt-2 relative z-10">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <button type="submit" class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition-colors duration-200">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 @empty

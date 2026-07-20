@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\View::composer('frontend.layout.master', function ($view) {
+            $cartService = app(\App\Services\Frontend\CartService::class);
+            $view->with('cartCount', $cartService->getCartCount());
+        });
     }
 }
