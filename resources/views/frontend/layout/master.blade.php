@@ -316,7 +316,7 @@
                 `;
                 }
 
-                fetch('{{ route("frontend.cart.index") }}', {
+                fetch('{{ route("frontend.cart.index") }}'.replace(/^http:/, 'https:'), {
                     headers: {
                         'Accept': 'application/json',
                         'X-Requested-With': 'XMLHttpRequest'
@@ -533,7 +533,7 @@
                         badgeEl.innerText = currentCount + 1;
                     }
 
-                    fetch(form.getAttribute('action'), {
+                    fetch(form.getAttribute('action').replace(/^http:/, 'https:'), {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
