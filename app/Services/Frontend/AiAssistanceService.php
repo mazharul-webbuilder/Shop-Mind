@@ -34,6 +34,10 @@ class AiAssistanceService
             ],
         ]);
 
+        if (!$response->successful()) {
+            Log::error('Groq AI API error: ' . $response->status() . ' - ' . $response->body());
+        }
+
         $content = $response->json('choices.0.message.content');
 
         if (!$content) {
